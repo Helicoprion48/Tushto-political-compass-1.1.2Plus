@@ -168,6 +168,34 @@
       letter-spacing: -0.025em;
     }
 
+    .quiz-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .back-btn {
+      align-self: flex-start;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+      padding: 9px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: 160ms ease;
+    }
+
+    .back-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateX(-2px);
+    }
+
+    .back-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
     .answers {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -457,6 +485,10 @@
         grid-template-columns: 1fr;
       }
 
+      .back-btn {
+        align-self: stretch;
+      }
+
       .answer-btn {
         min-height: 56px;
       }
@@ -513,12 +545,15 @@
         <div id="questionNumber" class="question-number"></div>
         <div id="question"></div>
 
-        <div class="answers">
-          <button class="answer-btn strong-agree" data-multiplier="1">Strongly Agree</button>
+        <div class="quiz-actions">
+          <button id="backBtn" class="back-btn" type="button">← Back</button>
+          <div class="answers">
+            <button class="answer-btn strong-agree" data-multiplier="1">Strongly Agree</button>
           <button class="answer-btn agree" data-multiplier="0.5">Agree</button>
           <button class="answer-btn neutral" data-multiplier="0">Neutral</button>
-          <button class="answer-btn disagree" data-multiplier="-0.5">Disagree</button>
-          <button class="answer-btn strong-disagree" data-multiplier="-1">Strongly Disagree</button>
+            <button class="answer-btn disagree" data-multiplier="-0.5">Disagree</button>
+            <button class="answer-btn strong-disagree" data-multiplier="-1">Strongly Disagree</button>
+          </div>
         </div>
 
         <p class="hint">Your answers shift your economic and social position based on the statement.</p>
@@ -669,6 +704,7 @@
     let econ = 0;
     let soc = 0;
     let questionIndex = 0;
+    let answerHistory = [];
 
     const quiz = document.getElementById("quiz");
     const result = document.getElementById("result");
@@ -679,6 +715,7 @@
     const progressText = document.getElementById("progressText");
     const progressPercent = document.getElementById("progressPercent");
     const progressFill = document.getElementById("progressFill");
+    const backBtn = document.getElementById("backBtn");
 
     const compass = document.getElementById("compass");
     const resultDot = document.getElementById("resultDot");
@@ -712,6 +749,7 @@
       progressText.textContent = `Question ${current} of ${total}`;
       progressPercent.textContent = `${percent}%`;
       progressFill.style.width = `${percent}%`;
+      backBtn.disabled = answerHistory.length === 0;
     }
 
     function answer(multiplier) {
@@ -722,8 +760,24 @@
       econ = clamp(econ + econChange * multiplier, -CONFIG.MAX_VAL, CONFIG.MAX_VAL);
       soc = clamp(soc + socChange * multiplier, -CONFIG.MAX_VAL, CONFIG.MAX_VAL);
 
+      answerHistory.push(multiplier);
       questionIndex++;
       renderQuestion();
+    }
+
+    function goBack() {
+      if (answerHistory.length === 0 || questionIndex <= 0) return;
+
+      questionIndex--;
+
+      const multiplier = answerHistory.pop();
+      const [, econChange, socChange] = CONFIG.questions[questionIndex];
+
+      econ = clamp(econ - econChange * multiplier, -CONFIG.MAX_VAL, CONFIG.MAX_VAL);
+      soc = clamp(soc - socChange * multiplier, -CONFIG.MAX_VAL, CONFIG.MAX_VAL);
+
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function positionToPercentX(value) {
@@ -825,6 +879,7 @@
       econ = 0;
       soc = 0;
       questionIndex = 0;
+      answerHistory = [];
 
       result.style.display = "none";
       quiz.style.display = "block";
@@ -842,6 +897,7 @@
       });
     });
 
+    backBtn.addEventListener("click", goBack);
     document.getElementById("resetTop").addEventListener("click", resetQuiz);
     document.getElementById("restartLarge").addEventListener("click", resetQuiz);
 
