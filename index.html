@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tushto Political Compass</title>
+
+  <style>
+    /* =========================================================
+       TUSHTO POLITICAL COMPASS
+       Everything in this file is self-contained.
+       No external libraries or internet connection required.
+       ========================================================= */
+
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(20, 28, 52, 0.92);
+      --panel-2: rgba(28, 37, 66, 0.9);
+      --text: #f5f7ff;
+      --muted: #aab4d0;
+      --border: rgba(255, 255, 255, 0.10);
+      --accent: #7c9cff;
+      --accent-2: #9b7cff;
+      --green: #2ca36a;
+      --green-dark: #167347;
+      --red: #d94b55;
+      --red-dark: #9f2933;
+      --neutral: #667085;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124, 156, 255, 0.16), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(155, 124, 255, 0.13), transparent 34%),
+        var(--bg);
+      color: var(--text);
+      padding: 28px 16px 40px;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: #c7d2ff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .subtitle {
+      max-width: 760px;
+      margin: 12px auto 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .progress-wrap {
+      flex: 1;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-bottom: 7px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 250ms ease;
+    }
+
+    .reset-btn {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 160ms ease;
+      white-space: nowrap;
+    }
+
+    .reset-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .question-card {
+      padding: clamp(24px, 5vw, 44px);
+    }
+
+    .question-number {
+      color: #b7c4ff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: center;
+    }
+
+    #question {
+      max-width: 900px;
+      margin: 18px auto 32px;
+      text-align: center;
+      font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+      line-height: 1.23;
+      letter-spacing: -0.025em;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .answer-btn {
+      min-height: 88px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+      box-shadow: inset 0 1px rgba(255,255,255,0.08);
+      transition: transform 160ms ease, filter 160ms ease, box-shadow 160ms ease;
+    }
+
+    .answer-btn:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.08);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.22);
+    }
+
+    .answer-btn:active {
+      transform: translateY(0);
+    }
+
+    .strong-agree { background: linear-gradient(135deg, #167347, #2ca36a); }
+    .agree { background: linear-gradient(135deg, #287e55, #43b778); }
+    .neutral { background: linear-gradient(135deg, #566071, #707b8e); }
+    .disagree { background: linear-gradient(135deg, #bd3d49, #df6269); }
+    .strong-disagree { background: linear-gradient(135deg, #8e252e, #bd3843); }
+
+    .hint {
+      margin: 18px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    /* =========================
+       RESULT / COMPASS
+       ========================= */
+
+    #result {
+      display: none;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      gap: 20px;
+    }
+
+    .result-card {
+      padding: 24px;
+    }
+
+    .result-title {
+      margin: 0 0 4px;
+      font-size: 1.25rem;
+    }
+
+    .result-subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .compass-wrap {
+      display: grid;
+      place-items: center;
+      padding: 10px 0 4px;
+    }
+
+    .compass {
+      position: relative;
+      width: min(78vw, 600px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: visible;
+      background:
+        linear-gradient(to right,
+          rgba(218, 75, 85, 0.25) 0%,
+          rgba(218, 75, 85, 0.05) 50%,
+          rgba(44, 163, 106, 0.05) 50%,
+          rgba(44, 163, 106, 0.25) 100%),
+        linear-gradient(to bottom,
+          rgba(115, 141, 255, 0.24) 0%,
+          rgba(115, 141, 255, 0.04) 50%,
+          rgba(255, 176, 92, 0.05) 50%,
+          rgba(255, 176, 92, 0.22) 100%);
+      border: 2px solid rgba(255,255,255,0.20);
+      box-shadow:
+        0 0 0 10px rgba(255,255,255,0.025),
+        0 18px 45px rgba(0,0,0,0.25);
+    }
+
+    .compass::before,
+    .compass::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,0.24);
+    }
+
+    .compass::before {
+      width: 2px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .compass::after {
+      width: 100%;
+      height: 2px;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .quadrant-label {
+      position: absolute;
+      color: rgba(255,255,255,0.73);
+      font-size: clamp(0.64rem, 1.6vw, 0.82rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      pointer-events: none;
+    }
+
+    .q-tl { left: 7%; top: 6%; }
+    .q-tr { right: 7%; top: 6%; text-align: right; }
+    .q-bl { left: 7%; bottom: 6%; }
+    .q-br { right: 7%; bottom: 6%; text-align: right; }
+
+    .axis-label {
+      position: absolute;
+      color: rgba(255,255,255,0.88);
+      font-weight: 900;
+      font-size: clamp(0.76rem, 1.8vw, 0.92rem);
+      text-shadow: 0 2px 9px rgba(0,0,0,0.35);
+      pointer-events: none;
+    }
+
+    .axis-right { right: -1.7em; top: 50%; transform: translateY(-50%); }
+    .axis-left { left: -1.7em; top: 50%; transform: translateY(-50%); }
+    .axis-top { top: -2.15em; left: 50%; transform: translateX(-50%); }
+    .axis-bottom { bottom: -2.15em; left: 50%; transform: translateX(-50%); }
+
+    .result-dot {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ff5a61;
+      border: 3px solid white;
+      box-shadow: 0 0 0 7px rgba(255, 90, 97, 0.17), 0 6px 18px rgba(0,0,0,0.4);
+      transform: translate(-50%, -50%);
+      z-index: 20;
+    }
+
+    .party-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #60a5fa;
+      border: 1px solid rgba(255,255,255,0.9);
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      cursor: default;
+    }
+
+    .party-label {
+      position: absolute;
+      transform: translate(8px, -50%);
+      z-index: 6;
+      font-size: 0.68rem;
+      font-weight: 750;
+      white-space: nowrap;
+      color: rgba(255,255,255,0.9);
+      text-shadow: 0 2px 7px rgba(0,0,0,0.9);
+      pointer-events: none;
+    }
+
+    .coordinates {
+      margin-top: 26px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .coordinates strong {
+      color: var(--text);
+    }
+
+    /* =========================
+       MATCHES
+       ========================= */
+
+    .match-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 640px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .match {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 11px 13px;
+    }
+
+    .rank {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.08);
+      font-weight: 900;
+      color: #dce4ff;
+    }
+
+    .match-name {
+      font-weight: 850;
+    }
+
+    .match-coords {
+      color: var(--muted);
+      font-size: 0.77rem;
+      margin-top: 2px;
+    }
+
+    .match-score {
+      font-size: 0.84rem;
+      font-weight: 850;
+      color: #d9e0ff;
+    }
+
+    .restart-large {
+      width: 100%;
+      border: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: 160ms ease;
+    }
+
+    .restart-large:hover {
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-top: 16px;
+      opacity: 0.8;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 820px) {
+      .answers {
+        grid-template-columns: 1fr;
+      }
+
+      .answer-btn {
+        min-height: 56px;
+      }
+
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .party-label {
+        font-size: 0.60rem;
+      }
+
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .reset-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+    <header>
+      <div class="eyebrow">Tushto • Political Compass</div>
+      <h1>Where do you stand?</h1>
+      <p class="subtitle">
+        Answer the statements, then compare your position with Tushto's political parties.
+      </p>
+    </header>
+
+    <!-- =========================
+         QUIZ
+         ========================= -->
+    <section id="quiz">
+      <div class="topbar">
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span id="progressText">Question 1 of 30</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <button id="resetTop" class="reset-btn" type="button">Reset</button>
+      </div>
+
+      <section class="card question-card">
+        <div id="questionNumber" class="question-number"></div>
+        <div id="question"></div>
+
+        <div class="answers">
+          <button class="answer-btn strong-agree" data-multiplier="1">Strongly Agree</button>
+          <button class="answer-btn agree" data-multiplier="0.5">Agree</button>
+          <button class="answer-btn neutral" data-multiplier="0">Neutral</button>
+          <button class="answer-btn disagree" data-multiplier="-0.5">Disagree</button>
+          <button class="answer-btn strong-disagree" data-multiplier="-1">Strongly Disagree</button>
+        </div>
+
+        <p class="hint">Your answers shift your economic and social position based on the statement.</p>
+      </section>
+    </section>
+
+    <!-- =========================
+         RESULTS
+         ========================= -->
+    <section id="result">
+      <div class="result-grid">
+        <section class="card result-card">
+          <h2 class="result-title">Your political compass</h2>
+          <p class="result-subtitle">Your position and the configured Tushtoan parties.</p>
+
+          <div class="compass-wrap">
+            <div id="compass" class="compass">
+              <span class="quadrant-label q-tl">Left<br>Progressive</span>
+              <span class="quadrant-label q-tr">Right<br>Progressive</span>
+              <span class="quadrant-label q-bl">Left<br>Conservative</span>
+              <span class="quadrant-label q-br">Right<br>Conservative</span>
+
+              <span class="axis-label axis-left">Left</span>
+              <span class="axis-label axis-right">Right</span>
+              <span class="axis-label axis-top">Progressive</span>
+              <span class="axis-label axis-bottom">Conservative</span>
+
+              <div id="resultDot" class="result-dot" title="You"></div>
+            </div>
+          </div>
+
+          <div id="coordinates" class="coordinates"></div>
+        </section>
+
+        <section class="card result-card">
+          <h2 class="result-title">Closest parties</h2>
+          <p class="result-subtitle">Ranked by straight-line distance from your result.</p>
+          <div id="matchList" class="match-list"></div>
+          <button id="restartLarge" class="restart-large" type="button">Take the quiz again</button>
+        </section>
+      </div>
+
+      <div class="footer">
+        Edit the questions and party coordinates in the CONFIG section of this file.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    /* =========================================================
+       ====================== CONFIG ===========================
+       =========================================================
+
+       THIS IS THE ONLY SECTION YOU REALLY NEED TO EDIT.
+
+       Add/remove questions here:
+         ["Question text", economicEffect, socialEffect]
+
+       Add/remove parties here:
+         ["Party name", economicPosition, socialPosition]
+
+       Coordinate system:
+         Economic: -200 = far left, +200 = far right
+         Social:   -200 = conservative, +200 = progressive
+
+       The original Tushto values have been kept below.
+       ========================================================= */
+
+    const CONFIG = {
+      MAX_VAL: 200,
+
+      questions: [
+        ["Capitalism must be abolished again.", -13.333, 0],
+        ["LGBTQ+ rights should get more protection.", 0, 13.333],
+        ["Tushto should stop recognising Palestine as an independent state.", 0, -13.333],
+        ["More airports must be built to reduce pressure on existing ones.", 13.333, 0],
+        ["Illegal immigrants should be punishable by law.", 0, -13.333],
+        ["The use of short-form content should be illegal under the age of 15.", 0, -13.333],
+        ["Tushto should invest more in development aid.", 0, 13.333],
+        ["Tushto should check more what is taught in religious institutions.", 0, -13.333],
+        ["Less money should go to public broadcasters.", 13.333, 0],
+        ["The prices of social housing may not rise more than the inflation.", -13.333, 0],
+        ["Abortion should be illegal.", 0, -13.333],
+        ["Tushto should invest at least 3.5% of its GDP in its national military.", 0, -13.333],
+        ["Tushto should make more nuclear power plants.", 13.333, 0],
+        ["There should be more environmental taxes.", 0, 13.333],
+        ["The state may make farmers sell their farm to reduce emissions.", 0, 13.333],
+        ["More money should go to public transport instead of roads.", 0, 13.333],
+        ["The tax on assets should increase.", -13.333, 0],
+        ["Taxes for large corporations should decrease.", 13.333, 0],
+        ["Tushto should take in less asylum seekers.", 0, -13.333],
+        ["In a budget deficit, less should be spent overall before increasing taxes.", 13.333, 0],
+        ["Ukraine may become an EDAMAME-member state in the future.", 0, 13.333],
+        ["Tushto should start drilling for gas in the North Sea.", 13.333, 0],
+        ["The prices of healthy food should decrease.", -13.333, 0],
+        ["Tushto should join the EU.", 0, 13.333],
+        ["Democracy in Tushto should be abolished or strongly reformed.", 0, -13.333],
+        ["Welfare for the unemployed should go up as much as the minimum wage.", -13.333, 0],
+        ["All energy companies should be collectivised.", -13.333, 0],
+        ["Building buyable houses should have more priority than social housing.", 13.333, 0],
+        ["There should be excess in healthcare insurance.", 13.333, 0],
+        ["The retirement age should go up from 65 to 67.", 13.333, 0],
+      ],
+
+      parties: [
+        ["SvT", -100, 140],
+        ["BS", -160, 110],
+        ["RC", -180, 70],
+        ["UFT", 60, 110],
+        ["FUC", 0, 120],
+        ["MV", -20, 20],
+        ["NS", -160, 150],
+        ["TVT", -120, -20],
+        ["NAPP", 120, -180],
+        ["Volt", -60, 180],
+        ["LVT", 60, -50],
+        ["Levitatie", -130, 160],
+        ["PP", -100, 100],
+        ["PUL", 200, -20],
+        ["BCB!", 50, -140],
+        ["RR", 140, -40],
+        ["NEE25", 40, -40],
+        ["X", 180, -120],
+        ["VB", -160, 20],
+        ["RPP", 170, -140],
+        ["FP", -190, 180],
+        ["PVM", 30, -160],
+        ["PtdB", 50, -100],
+        ["LibDem", 30, 120],
+        ["PPTU", 80, 140],
+        ["TUPLAN", -40, 30],
+        ["ABCK", 40, -70],
+        ["TVD", 180, -180],
+        ["CSP", -140, -80],
+        ["CP", 10, 30],
+        ["LP", 160, 20],
+        ["Nur", -70, 70],
+        ["ID", 30, -60],
+        ["OG", -50, -20],
+        ["VvG", 0, -100],
+      ]
+    };
+
+    /* =========================================================
+       =================== APP CODE =============================
+       ========================================================= */
+
+    let econ = 0;
+    let soc = 0;
+    let questionIndex = 0;
+
+    const quiz = document.getElementById("quiz");
+    const result = document.getElementById("result");
+
+    const questionNumber = document.getElementById("questionNumber");
+    const question = document.getElementById("question");
+
+    const progressText = document.getElementById("progressText");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressFill = document.getElementById("progressFill");
+
+    const compass = document.getElementById("compass");
+    const resultDot = document.getElementById("resultDot");
+    const coordinates = document.getElementById("coordinates");
+    const matchList = document.getElementById("matchList");
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function formatNumber(value) {
+      return Number.isInteger(value)
+        ? String(value)
+        : value.toFixed(1).replace(/\.0$/, "");
+    }
+
+    function renderQuestion() {
+      if (questionIndex >= CONFIG.questions.length) {
+        showResults();
+        return;
+      }
+
+      const [text] = CONFIG.questions[questionIndex];
+      const total = CONFIG.questions.length;
+      const current = questionIndex + 1;
+      const percent = Math.round((questionIndex / total) * 100);
+
+      questionNumber.textContent = `Question ${current} of ${total}`;
+      question.textContent = text;
+
+      progressText.textContent = `Question ${current} of ${total}`;
+      progressPercent.textContent = `${percent}%`;
+      progressFill.style.width = `${percent}%`;
+    }
+
+    function answer(multiplier) {
+      if (questionIndex >= CONFIG.questions.length) return;
+
+      const [, econChange, socChange] = CONFIG.questions[questionIndex];
+
+      econ = clamp(econ + econChange * multiplier, -CONFIG.MAX_VAL, CONFIG.MAX_VAL);
+      soc = clamp(soc + socChange * multiplier, -CONFIG.MAX_VAL, CONFIG.MAX_VAL);
+
+      questionIndex++;
+      renderQuestion();
+    }
+
+    function positionToPercentX(value) {
+      return ((value + CONFIG.MAX_VAL) / (CONFIG.MAX_VAL * 2)) * 100;
+    }
+
+    function positionToPercentY(value) {
+      // Progressive is positive and appears at the top.
+      return 100 - ((value + CONFIG.MAX_VAL) / (CONFIG.MAX_VAL * 2)) * 100;
+    }
+
+    function clearPartyMarkers() {
+      compass.querySelectorAll(".party-dot, .party-label").forEach(el => el.remove());
+    }
+
+    function renderPartyMarkers() {
+      clearPartyMarkers();
+
+      CONFIG.parties.forEach(([name, ex, sy]) => {
+        const dot = document.createElement("div");
+        dot.className = "party-dot";
+        dot.style.left = `${positionToPercentX(ex)}%`;
+        dot.style.top = `${positionToPercentY(sy)}%`;
+        dot.title = `${name} (${formatNumber(ex)}, ${formatNumber(sy)})`;
+
+        const label = document.createElement("div");
+        label.className = "party-label";
+        label.textContent = name;
+        label.style.left = `${positionToPercentX(ex)}%`;
+        label.style.top = `${positionToPercentY(sy)}%`;
+
+        compass.appendChild(dot);
+        compass.appendChild(label);
+      });
+    }
+
+    function getPartyMatches() {
+      return CONFIG.parties
+        .map(([name, ex, sy]) => {
+          const distance = Math.sqrt(
+            Math.pow(econ - ex, 2) +
+            Math.pow(soc - sy, 2)
+          );
+
+          return { name, ex, sy, distance };
+        })
+        .sort((a, b) => a.distance - b.distance);
+    }
+
+    function showResults() {
+      quiz.style.display = "none";
+      result.style.display = "block";
+
+      progressFill.style.width = "100%";
+      progressPercent.textContent = "100%";
+      progressText.textContent = `${CONFIG.questions.length} of ${CONFIG.questions.length} answered`;
+
+      const x = clamp(positionToPercentX(econ), 0, 100);
+      const y = clamp(positionToPercentY(soc), 0, 100);
+
+      resultDot.style.left = `${x}%`;
+      resultDot.style.top = `${y}%`;
+      resultDot.title = `You (${formatNumber(econ)}, ${formatNumber(soc)})`;
+
+      coordinates.innerHTML =
+        `<strong>Economic:</strong> ${formatNumber(econ)} &nbsp;•&nbsp; ` +
+        `<strong>Social:</strong> ${formatNumber(soc)}`;
+
+      renderPartyMarkers();
+
+      const matches = getPartyMatches();
+      matchList.innerHTML = "";
+
+      matches.forEach((party, index) => {
+        const item = document.createElement("div");
+        item.className = "match";
+
+        item.innerHTML = `
+          <div class="rank">${index + 1}</div>
+          <div>
+            <div class="match-name"></div>
+            <div class="match-coords"></div>
+          </div>
+          <div class="match-score"></div>
+        `;
+
+        item.querySelector(".match-name").textContent = party.name;
+        item.querySelector(".match-coords").textContent =
+          `(${formatNumber(party.ex)}, ${formatNumber(party.sy)})`;
+
+        item.querySelector(".match-score").textContent =
+          `${party.distance.toFixed(1)} away`;
+
+        matchList.appendChild(item);
+      });
+    }
+
+    function resetQuiz() {
+      econ = 0;
+      soc = 0;
+      questionIndex = 0;
+
+      result.style.display = "none";
+      quiz.style.display = "block";
+
+      progressFill.style.width = "0%";
+      progressPercent.textContent = "0%";
+
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll(".answer-btn").forEach(button => {
+      button.addEventListener("click", () => {
+        answer(Number(button.dataset.multiplier));
+      });
+    });
+
+    document.getElementById("resetTop").addEventListener("click", resetQuiz);
+    document.getElementById("restartLarge").addEventListener("click", resetQuiz);
+
+    renderQuestion();
+  </script>
+</body>
+</html>
