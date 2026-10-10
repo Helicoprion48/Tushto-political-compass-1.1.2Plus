@@ -801,10 +801,10 @@
        CONFIGURATION
        =========================================================
 
-       EDIT YOUR QUESTIONS HERE:
+      QUESTIONS TEMPLATE:
          ["Question text", economicEffect, socialEffect]
 
-       EDIT YOUR PARTIES HERE:
+       PARTY TEMPLATE:
          ["Party name", economicPosition, socialPosition, qualifies]
 
        Coordinate system:
@@ -815,14 +815,9 @@
          true  = show in "Seats in Parliament or included in polls"
          false = show only when "All parties" is selected
 
-       Example:
-         ["Example Party", 25, -40, true]
-
-       Set a party's fourth value to true if it has parliamentary
-       seats OR is included in your polls. Set it to false otherwise.
-
-       The initial flags below are a suggested starting point.
-       Check them against your current Tushto canon.
+       A party's fourth value is true if it has parliamentary
+       seats or has seats in polls. It is false otherwise.
+       
        ========================================================= */
 
     const CONFIG = {
@@ -902,7 +897,6 @@
 
     /* =========================================================
        APP CODE
-       You normally don't need to edit anything below here.
        ========================================================= */
 
     let econ = 0;
