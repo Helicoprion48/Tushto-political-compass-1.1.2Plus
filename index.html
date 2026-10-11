@@ -571,47 +571,156 @@
       opacity: 0.8;
     }
 
-    /* =========================
-       MOBILE LAYOUT
-       ========================= */
+    
+/* =========================
+   MOBILE LAYOUT
+   ========================= */
 
-    @media (max-width: 820px) {
-      .answers {
-        grid-template-columns: 1fr;
-      }
+@media (max-width: 820px) {
+  .answers {
+    grid-template-columns: 1fr;
+  }
 
-      .back-btn {
-        align-self: stretch;
-      }
+  .back-btn {
+    align-self: stretch;
+  }
 
-      .answer-btn {
-        min-height: 56px;
-      }
+  .answer-btn {
+    min-height: 56px;
+  }
 
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
 
-      .party-label {
-        font-size: 0.60rem;
-      }
+  /* Give the compass a little more breathing room */
+  .compass-wrap {
+    padding: 24px 14px 28px;
+  }
 
-      .topbar {
-        align-items: stretch;
-        flex-direction: column;
-      }
+  .compass {
+    width: min(68vw, 420px);
+  }
 
-      .reset-btn {
-        width: 100%;
-      }
+  /* Smaller quadrant headings */
+  .quadrant-label {
+    font-size: 0.52rem;
+    letter-spacing: 0.035em;
+  }
 
-      .party-filter-options {
-        flex-direction: column;
-      }
+  .q-tl,
+  .q-bl {
+    left: 5%;
+  }
 
-      .filter-btn {
-        width: 100%;
-      }
+  .q-tr,
+  .q-br {
+    right: 5%;
+  }
+
+  /* Smaller axis labels */
+  .axis-label {
+    font-size: 0.68rem;
+  }
+
+  .axis-left {
+    left: -1.45em;
+  }
+
+  .axis-right {
+    right: -1.45em;
+  }
+
+  .axis-top {
+    top: -1.9em;
+  }
+
+  .axis-bottom {
+    bottom: -1.9em;
+  }
+
+  /* Smaller party markers */
+  .party-dot {
+    width: 7px;
+    height: 7px;
+    border-width: 1px;
+  }
+
+  /* Smaller party names */
+  .party-label {
+    font-size: 0.48rem;
+    font-weight: 650;
+    transform: translate(5px, -50%);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+  }
+
+  /* A slightly smaller personal-result marker */
+  .result-dot {
+    width: 18px;
+    height: 18px;
+    border-width: 2px;
+    box-shadow:
+      0 0 0 4px rgba(255, 90, 97, 0.17),
+      0 4px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .topbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reset-btn {
+    width: 100%;
+  }
+
+  .party-filter-options {
+    flex-direction: column;
+  }
+
+  .filter-btn {
+    width: 100%;
+  }
+}
+
+/* Extra adjustments for narrow phones */
+@media (max-width: 420px) {
+  .compass-wrap {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .compass {
+    width: min(64vw, 320px);
+  }
+
+  .quadrant-label {
+    font-size: 0.44rem;
+    letter-spacing: 0.015em;
+  }
+
+  .axis-label {
+    font-size: 0.58rem;
+  }
+
+  .party-label {
+    font-size: 0.40rem;
+    transform: translate(4px, -50%);
+  }
+
+  .party-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .result-dot {
+    width: 16px;
+    height: 16px;
+  }
+
+  .result-card {
+    padding: 16px 12px;
+  }
+}
     }
   </style>
 </head>
