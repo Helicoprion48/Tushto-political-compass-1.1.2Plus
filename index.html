@@ -941,9 +941,15 @@
           </div>
         </div>
 
-        <button id="resetTop" class="reset-btn" type="button">
-          Reset
-        </button>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button id="skipBtn" class="reset-btn" type="button">
+            Skip quiz →
+          </button>
+
+          <button id="resetTop" class="reset-btn" type="button">
+            Reset
+          </button>
+        </div>
 
       </div>
 
@@ -1621,6 +1627,17 @@
       renderPartyMatches();
     }
 
+function skipQuiz() {
+  econ = 0;
+  soc = 0;
+  questionIndex = CONFIG.questions.length;
+  answerHistory = [];
+
+  showResults();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
     /* =========================
        RESET
        ========================= */
@@ -1677,6 +1694,8 @@
       renderAverages();
     });
 
+    document.getElementById("skipBtn").addEventListener("click", skipQuiz);
+    
     document.getElementById("resetTop").addEventListener("click", resetQuiz);
 
     document.getElementById("restartLarge").addEventListener("click", resetQuiz);
