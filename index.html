@@ -298,7 +298,7 @@
 
     .result-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 20px;
     }
 
@@ -603,93 +603,161 @@
       margin-top: 16px;
       opacity: 0.8;
     }
-
-
-
     .average-controls {
-      display: grid;
-      gap: 14px;
-      margin: 4px 0 18px;
-      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4px 0 8px;
+      padding: 12px 14px;
       border: 1px solid var(--border);
-      border-radius: 15px;
+      border-radius: 14px;
       background: rgba(255,255,255,0.035);
     }
+
     .control-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
       gap: 10px 16px;
     }
-    .control-row label, .compare-label {
+
+    .control-row label {
       color: var(--text);
       font-size: 0.9rem;
       font-weight: 750;
+      cursor: pointer;
     }
+
     .average-toggle {
-      accent-color: #facc15;
+      accent-color: #b9a15a;
       width: 17px;
       height: 17px;
       vertical-align: middle;
       margin-right: 7px;
     }
-    .compare-select {
-      width: 100%;
-      min-height: 116px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 9px;
-      color: var(--text);
-      background: #18213b;
-      font: inherit;
-    }
+
     .compare-help, .compare-output {
       color: var(--muted);
-      font-size: 0.83rem;
-      line-height: 1.5;
+      font-size: 0.88rem;
+      line-height: 1.55;
       margin: 0;
     }
+
     .compare-output {
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,0.05);
+      padding: 13px 15px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.045);
       white-space: pre-line;
     }
+
+    .party-compare-card {
+      padding: 22px 24px;
+    }
+
+    .party-button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+      gap: 9px;
+      margin: 14px 0 16px;
+    }
+
+    .party-choice {
+      position: relative;
+      min-height: 42px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      padding: 9px 12px;
+      color: #e9edff;
+      background: linear-gradient(180deg, rgba(255,255,255,0.085), rgba(255,255,255,0.035));
+      box-shadow: 0 2px 5px rgba(0,0,0,0.16), inset 0 1px rgba(255,255,255,0.06);
+      cursor: pointer;
+      font-weight: 800;
+      text-align: center;
+      transition: transform 150ms ease, border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+    }
+
+    .party-choice:hover {
+      transform: translateY(-2px);
+      border-color: rgba(173,190,255,0.7);
+      background: linear-gradient(180deg, rgba(124,156,255,0.18), rgba(124,156,255,0.08));
+      box-shadow: 0 5px 12px rgba(0,0,0,0.22);
+    }
+
+    .party-choice.selected {
+      color: #fff;
+      border-color: rgba(207,216,255,0.95);
+      background: linear-gradient(135deg, #536fc2, #8061b7);
+      box-shadow: 0 5px 15px rgba(91,121,214,0.3), inset 0 1px rgba(255,255,255,0.22);
+    }
+
+    .party-choice.selected::before {
+      content: "✓";
+      margin-right: 6px;
+      color: #fff;
+    }
+
+    .party-choice:focus-visible,
+    .compare-action-btn:focus-visible {
+      outline: 3px solid rgba(190,205,255,0.9);
+      outline-offset: 2px;
+    }
+
+    .compare-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 0 0 14px;
+    }
+
+    .compare-action-btn {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.045);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 750;
+    }
+
+    .compare-action-btn:hover {
+      color: white;
+      background: rgba(255,255,255,0.10);
+    }
+
     .average-dot {
       position: absolute;
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #facc15;
-      border: 1px solid #fff7b2;
-      box-shadow: 0 0 0 3px rgba(250,204,21,0.2), 0 3px 9px rgba(0,0,0,.45);
+      background: #a88f53;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 7px rgba(0,0,0,.42);
       transform: translate(-50%, -50%);
       z-index: 12;
       cursor: help;
     }
+
     .average-label {
       position: absolute;
       transform: translate(8px, -50%);
       z-index: 13;
-      color: #ffe875;
+      color: #c7b47d;
       font-size: 0.68rem;
       font-weight: 850;
       white-space: nowrap;
       text-shadow: 0 2px 7px rgba(0,0,0,.95);
       pointer-events: none;
     }
-    .compare-line {
-      position: absolute;
-      height: 2px;
-      transform-origin: 0 50%;
-      background: rgba(250,204,21,.75);
-      z-index: 3;
-      pointer-events: none;
-    }
+
     @media (max-width: 820px) {
       .average-label { font-size: 0.48rem; }
       .average-dot { width: 7px; height: 7px; }
-      .compare-select { min-height: 130px; }
+      .party-compare-card { padding: 18px 15px; }
+      .party-button-grid { grid-template-columns: repeat(auto-fill, minmax(68px, 1fr)); gap: 7px; }
+      .party-choice { min-height: 39px; padding: 8px 9px; font-size: 0.82rem; }
     }
 
     /* =========================
@@ -841,7 +909,6 @@
         padding: 16px 12px;
       }
     }
-    }
   </style>
 </head>
 
@@ -851,6 +918,7 @@
    title="Return to the Tushto homepage">
     ← Tushto Home
 </a>
+
   <main class="app">
 
     <header>
@@ -923,8 +991,7 @@
           Your answers shift your economic and social position based on the statement.
         </p>
       </section>
-    </section>
-
+    </section>    
     <!-- =========================
          RESULTS
          ========================= -->
@@ -970,25 +1037,13 @@
         <section class="card result-card">
           <h2 class="result-title">Your political compass</h2>
           <p class="result-subtitle">
-            Your position, Tushtoan parties, and political averages.
+            Your position, Tushtoan parties, and the coalition average.
           </p>
 
           <div class="average-controls">
             <div class="control-row">
-              <label><input id="showParliamentAverage" class="average-toggle" type="checkbox" checked>Show current parliament average</label>
-              <label><input id="showCabinetAverage" class="average-toggle" type="checkbox">Show cabinet average</label>
+              <label><input id="showCoalitionAverage" class="average-toggle" type="checkbox" checked>Show coalition average</label>
             </div>
-            <div>
-              <label class="compare-label" for="cabinetParties">Cabinet parties used to calculate the cabinet average</label>
-              <select id="cabinetParties" class="compare-select" multiple aria-describedby="cabinetHelp"></select>
-              <p id="cabinetHelp" class="compare-help">Select the parties currently in the cabinet. The yellow cabinet marker updates automatically.</p>
-            </div>
-            <div>
-              <label class="compare-label" for="compareParties">Compare parties with one another and with the parliament average</label>
-              <select id="compareParties" class="compare-select" multiple></select>
-              <p class="compare-help">Select two or more parties. Their positions and their combined average will be shown on the compass, with each party's distance from the parliament average below.</p>
-            </div>
-            <p id="compareOutput" class="compare-output" aria-live="polite">Choose at least two parties to compare them.</p>
           </div>
 
           <div class="compass-wrap">
@@ -1023,6 +1078,19 @@
           <div id="coordinates" class="coordinates"></div>
         </section>
 
+        <!-- Party comparator -->
+
+        <section class="card party-compare-card">
+          <h2 class="result-title">Compare parties</h2>
+          <p class="result-subtitle">Choose parties using the buttons below. You can compare one party with the coalition average or select several to see their combined average.</p>
+          <div id="comparePartyButtons" class="party-button-grid" role="group" aria-label="Select parties to compare"></div>
+          <div class="compare-actions">
+            <button id="clearCompareBtn" class="compare-action-btn" type="button">Clear selection</button>
+            <button id="selectVisibleCompareBtn" class="compare-action-btn" type="button">Select visible parties</button>
+          </div>
+          <p id="compareOutput" class="compare-output" aria-live="polite">Choose one or more parties to compare them with the coalition average.</p>
+        </section>
+
         <!-- Closest parties -->
 
         <section class="card result-card">
@@ -1048,7 +1116,7 @@
     </section>
   </main>
 
-    <script>
+  <script>
     /* =========================================================
        CONFIGURATION
        =========================================================
@@ -1075,11 +1143,8 @@
     const CONFIG = {
       MAX_VAL: 200,
 
-      // Fixed current-parliament average supplied for this compass.
-      parliamentAverage: [-70, 110],
-      // Add party abbreviations here to preselect the current cabinet.
-      // Leave empty until the cabinet composition is configured.
-      cabinetParties: [],
+      // Fixed coalition average position.
+      coalitionAverage: [-70, 110],
 
       questions: [
         ["Capitalism must be abolished again.", -13.333, 0],
@@ -1184,11 +1249,10 @@
     const showAllPartiesBtn = document.getElementById("showAllPartiesBtn");
     const showCurrentPartiesBtn = document.getElementById("showCurrentPartiesBtn");
     const partyFilterDescription = document.getElementById("partyFilterDescription");
-    const showParliamentAverage = document.getElementById("showParliamentAverage");
-    const showCabinetAverage = document.getElementById("showCabinetAverage");
-    const cabinetPartiesSelect = document.getElementById("cabinetParties");
-    const comparePartiesSelect = document.getElementById("compareParties");
+    const showCoalitionAverage = document.getElementById("showCoalitionAverage");
+    const comparePartyButtons = document.getElementById("comparePartyButtons");
     const compareOutput = document.getElementById("compareOutput");
+    const selectedCompareParties = new Set();
 
     function clamp(value, min, max) {
       return Math.max(min, Math.min(max, value));
@@ -1199,6 +1263,10 @@
         ? String(value)
         : value.toFixed(1).replace(/\.0$/, "");
     }
+
+    /* =========================
+       QUIZ
+       ========================= */
 
     function renderQuestion() {
       if (questionIndex >= CONFIG.questions.length) {
@@ -1242,8 +1310,7 @@
       questionIndex++;
 
       renderQuestion();
-    }
-
+    }    
     function goBack() {
       if (answerHistory.length === 0 || questionIndex <= 0) return;
 
@@ -1317,25 +1384,26 @@
        DRAW PARTIES ON COMPASS
        ========================= */
 
-    function populatePartySelectors() {
-      const parties = CONFIG.parties;
-      [cabinetPartiesSelect, comparePartiesSelect].forEach(select => {
-        select.innerHTML = "";
-        parties.forEach(([name]) => {
-          const option = document.createElement("option");
-          option.value = name;
-          option.textContent = name;
-          select.appendChild(option);
+    function renderComparePartyButtons() {
+      comparePartyButtons.innerHTML = "";
+      CONFIG.parties.forEach(([name]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "party-choice" + (selectedCompareParties.has(name) ? " selected" : "");
+        button.textContent = name;
+        button.setAttribute("aria-pressed", String(selectedCompareParties.has(name)));
+        button.addEventListener("click", () => {
+          if (selectedCompareParties.has(name)) selectedCompareParties.delete(name);
+          else selectedCompareParties.add(name);
+          renderComparePartyButtons();
+          renderAverages();
         });
-      });
-      Array.from(cabinetPartiesSelect.options).forEach(option => {
-        option.selected = CONFIG.cabinetParties.includes(option.value);
+        comparePartyButtons.appendChild(button);
       });
     }
 
-    function selectedParties(select) {
-      const names = Array.from(select.selectedOptions).map(option => option.value);
-      return CONFIG.parties.filter(([name]) => names.includes(name));
+    function selectedParties() {
+      return CONFIG.parties.filter(([name]) => selectedCompareParties.has(name));
     }
 
     function averagePosition(parties) {
@@ -1352,56 +1420,61 @@
       dot.style.left = `${positionToPercentX(x)}%`;
       dot.style.top = `${positionToPercentY(y)}%`;
       dot.title = `${name} (${formatNumber(x)}, ${formatNumber(y)})${description ? " — " + description : ""}`;
+
       const label = document.createElement("div");
       label.className = "average-label";
       label.textContent = name;
       label.style.left = `${positionToPercentX(x)}%`;
       label.style.top = `${positionToPercentY(y)}%`;
+
       compass.append(dot, label);
     }
 
     function renderAverages() {
-      compass.querySelectorAll(".average-dot, .average-label, .compare-line").forEach(el => el.remove());
+      compass.querySelectorAll(".average-dot, .average-label").forEach(el => el.remove());
 
-      if (showParliamentAverage.checked) {
-        const [x, y] = CONFIG.parliamentAverage;
-        addAverageMarker("Parliament average", x, y);
+      if (showCoalitionAverage.checked) {
+        const [x, y] = CONFIG.coalitionAverage;
+        addAverageMarker("Coalition average", x, y);
       }
 
-      if (showCabinetAverage.checked) {
-        const average = averagePosition(selectedParties(cabinetPartiesSelect));
-        if (average) {
-          addAverageMarker("Cabinet average", average.x, average.y);
-        } else {
-          compareOutput.textContent = "Select at least one cabinet party to calculate the cabinet average.";
-        }
-      }
+      const compared = selectedParties();
 
-      const compared = selectedParties(comparePartiesSelect);
       if (compared.length >= 2) {
         const average = averagePosition(compared);
-        addAverageMarker("Selected parties' average", average.x, average.y,
-          compared.map(p => p[0]).join(", "));
+        addAverageMarker(
+          "Selected parties' average",
+          average.x,
+          average.y,
+          compared.map(p => p[0]).join(", ")
+        );
       }
+
       renderComparisonOutput(compared);
     }
 
     function renderComparisonOutput(compared) {
       if (compared.length === 0) {
-        compareOutput.textContent = "Choose at least two parties to compare them.";
+        compareOutput.textContent = "Choose one or more parties to compare them with the coalition average.";
         return;
       }
-      const [px, py] = CONFIG.parliamentAverage;
+
+      const [cx, cy] = CONFIG.coalitionAverage;
+
       const lines = compared.map(([name, x, y]) => {
-        const distance = Math.hypot(x - px, y - py);
-        return `${name}: (${formatNumber(x)}, ${formatNumber(y)}) — ${distance.toFixed(1)} compass units from parliament average`;
+        const distance = Math.hypot(x - cx, y - cy);
+
+        return `${name}: (${formatNumber(x)}, ${formatNumber(y)}) — ${distance.toFixed(1)} compass units from coalition average`;
       });
+
       if (compared.length >= 2) {
         const average = averagePosition(compared);
-        lines.push(`Selected-party average: (${formatNumber(average.x)}, ${formatNumber(average.y)})`);
-      } else {
-        lines.push("Select at least one more party to calculate a group average.");
+        const distance = Math.hypot(average.x - cx, average.y - cy);
+
+        lines.push(`
+Combined average: (${formatNumber(average.x)}, ${formatNumber(average.y)}) — ${distance.toFixed(1)} units from coalition average`);
       }
+
       compareOutput.textContent = lines.join("\n");
     }
 
@@ -1432,6 +1505,7 @@
         compass.appendChild(dot);
         compass.appendChild(label);
       });
+
       renderAverages();
     }
 
@@ -1571,17 +1645,26 @@
       updatePartyFilter(true);
     });
 
-    showParliamentAverage.addEventListener("change", renderAverages);
-    showCabinetAverage.addEventListener("change", renderAverages);
-    cabinetPartiesSelect.addEventListener("change", renderAverages);
-    comparePartiesSelect.addEventListener("change", renderAverages);
+    showCoalitionAverage.addEventListener("change", renderAverages);
+
+    document.getElementById("clearCompareBtn").addEventListener("click", () => {
+      selectedCompareParties.clear();
+      renderComparePartyButtons();
+      renderAverages();
+    });
+
+    document.getElementById("selectVisibleCompareBtn").addEventListener("click", () => {
+      getVisibleParties().forEach(([name]) => selectedCompareParties.add(name));
+      renderComparePartyButtons();
+      renderAverages();
+    });
 
     document.getElementById("resetTop").addEventListener("click", resetQuiz);
 
     document.getElementById("restartLarge").addEventListener("click", resetQuiz);
 
-    // Populate comparison controls and display the first question.
-    populatePartySelectors();
+    // Build the party comparison buttons and display the first question.
+    renderComparePartyButtons();
     renderQuestion();
   </script>
 </body>
