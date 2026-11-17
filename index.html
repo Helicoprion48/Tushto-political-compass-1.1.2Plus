@@ -604,156 +604,243 @@
       opacity: 0.8;
     }
 
-    
-/* =========================
-   MOBILE LAYOUT
-   ========================= */
 
-@media (max-width: 820px) {
-  .answers {
-    grid-template-columns: 1fr;
-  }
 
-  .back-btn {
-    align-self: stretch;
-  }
+    .average-controls {
+      display: grid;
+      gap: 14px;
+      margin: 4px 0 18px;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255,255,255,0.035);
+    }
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 16px;
+    }
+    .control-row label, .compare-label {
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+    .average-toggle {
+      accent-color: #facc15;
+      width: 17px;
+      height: 17px;
+      vertical-align: middle;
+      margin-right: 7px;
+    }
+    .compare-select {
+      width: 100%;
+      min-height: 116px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px;
+      color: var(--text);
+      background: #18213b;
+      font: inherit;
+    }
+    .compare-help, .compare-output {
+      color: var(--muted);
+      font-size: 0.83rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .compare-output {
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      white-space: pre-line;
+    }
+    .average-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #facc15;
+      border: 1px solid #fff7b2;
+      box-shadow: 0 0 0 3px rgba(250,204,21,0.2), 0 3px 9px rgba(0,0,0,.45);
+      transform: translate(-50%, -50%);
+      z-index: 12;
+      cursor: help;
+    }
+    .average-label {
+      position: absolute;
+      transform: translate(8px, -50%);
+      z-index: 13;
+      color: #ffe875;
+      font-size: 0.68rem;
+      font-weight: 850;
+      white-space: nowrap;
+      text-shadow: 0 2px 7px rgba(0,0,0,.95);
+      pointer-events: none;
+    }
+    .compare-line {
+      position: absolute;
+      height: 2px;
+      transform-origin: 0 50%;
+      background: rgba(250,204,21,.75);
+      z-index: 3;
+      pointer-events: none;
+    }
+    @media (max-width: 820px) {
+      .average-label { font-size: 0.48rem; }
+      .average-dot { width: 7px; height: 7px; }
+      .compare-select { min-height: 130px; }
+    }
 
-  .answer-btn {
-    min-height: 56px;
-  }
+    /* =========================
+       MOBILE LAYOUT
+       ========================= */
 
-  .result-grid {
-    grid-template-columns: 1fr;
-  }
+    @media (max-width: 820px) {
+      .answers {
+        grid-template-columns: 1fr;
+      }
 
-  /* Give the compass a little more breathing room */
-  .compass-wrap {
-    padding: 24px 14px 28px;
-  }
+      .back-btn {
+        align-self: stretch;
+      }
 
-  .compass {
-    width: min(68vw, 420px);
-  }
+      .answer-btn {
+        min-height: 56px;
+      }
 
-  /* Smaller quadrant headings */
-  .quadrant-label {
-    font-size: 0.52rem;
-    letter-spacing: 0.035em;
-  }
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
 
-  .q-tl,
-  .q-bl {
-    left: 5%;
-  }
+      /* Give the compass a little more breathing room */
+      .compass-wrap {
+        padding: 24px 14px 28px;
+      }
 
-  .q-tr,
-  .q-br {
-    right: 5%;
-  }
+      .compass {
+        width: min(68vw, 420px);
+      }
 
-  /* Smaller axis labels */
-  .axis-label {
-    font-size: 0.68rem;
-  }
+      /* Smaller quadrant headings */
+      .quadrant-label {
+        font-size: 0.52rem;
+        letter-spacing: 0.035em;
+      }
 
-  .axis-left {
-    left: -1.45em;
-  }
+      .q-tl,
+      .q-bl {
+        left: 5%;
+      }
 
-  .axis-right {
-    right: -1.45em;
-  }
+      .q-tr,
+      .q-br {
+        right: 5%;
+      }
 
-  .axis-top {
-    top: -1.9em;
-  }
+      /* Smaller axis labels */
+      .axis-label {
+        font-size: 0.68rem;
+      }
 
-  .axis-bottom {
-    bottom: -1.9em;
-  }
+      .axis-left {
+        left: -1.45em;
+      }
 
-  /* Smaller party markers */
-  .party-dot {
-    width: 7px;
-    height: 7px;
-    border-width: 1px;
-  }
+      .axis-right {
+        right: -1.45em;
+      }
 
-  /* Smaller party names */
-  .party-label {
-    font-size: 0.48rem;
-    font-weight: 650;
-    transform: translate(5px, -50%);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
-  }
+      .axis-top {
+        top: -1.9em;
+      }
 
-  /* A slightly smaller personal-result marker */
-  .result-dot {
-    width: 18px;
-    height: 18px;
-    border-width: 2px;
-    box-shadow:
-      0 0 0 4px rgba(255, 90, 97, 0.17),
-      0 4px 10px rgba(0, 0, 0, 0.4);
-  }
+      .axis-bottom {
+        bottom: -1.9em;
+      }
 
-  .topbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
+      /* Smaller party markers */
+      .party-dot {
+        width: 7px;
+        height: 7px;
+        border-width: 1px;
+      }
 
-  .reset-btn {
-    width: 100%;
-  }
+      /* Smaller party names */
+      .party-label {
+        font-size: 0.48rem;
+        font-weight: 650;
+        transform: translate(5px, -50%);
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95);
+      }
 
-  .party-filter-options {
-    flex-direction: column;
-  }
+      /* A slightly smaller personal-result marker */
+      .result-dot {
+        width: 18px;
+        height: 18px;
+        border-width: 2px;
+        box-shadow:
+          0 0 0 4px rgba(255, 90, 97, 0.17),
+          0 4px 10px rgba(0, 0, 0, 0.4);
+      }
 
-  .filter-btn {
-    width: 100%;
-  }
-}
+      .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
 
-/* Extra adjustments for narrow phones */
-@media (max-width: 420px) {
-  .compass-wrap {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
+      .reset-btn {
+        width: 100%;
+      }
 
-  .compass {
-    width: min(64vw, 320px);
-  }
+      .party-filter-options {
+        flex-direction: column;
+      }
 
-  .quadrant-label {
-    font-size: 0.44rem;
-    letter-spacing: 0.015em;
-  }
+      .filter-btn {
+        width: 100%;
+      }
+    }
 
-  .axis-label {
-    font-size: 0.58rem;
-  }
+    /* Extra adjustments for narrow phones */
+    @media (max-width: 420px) {
+      .compass-wrap {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
 
-  .party-label {
-    font-size: 0.40rem;
-    transform: translate(4px, -50%);
-  }
+      .compass {
+        width: min(64vw, 320px);
+      }
 
-  .party-dot {
-    width: 6px;
-    height: 6px;
-  }
+      .quadrant-label {
+        font-size: 0.44rem;
+        letter-spacing: 0.015em;
+      }
 
-  .result-dot {
-    width: 16px;
-    height: 16px;
-  }
+      .axis-label {
+        font-size: 0.58rem;
+      }
 
-  .result-card {
-    padding: 16px 12px;
-  }
-}
+      .party-label {
+        font-size: 0.40rem;
+        transform: translate(4px, -50%);
+      }
+
+      .party-dot {
+        width: 6px;
+        height: 6px;
+      }
+
+      .result-dot {
+        width: 16px;
+        height: 16px;
+      }
+
+      .result-card {
+        padding: 16px 12px;
+      }
+    }
     }
   </style>
 </head>
@@ -883,8 +970,26 @@
         <section class="card result-card">
           <h2 class="result-title">Your political compass</h2>
           <p class="result-subtitle">
-            Your position and the configured Tushtoan parties.
+            Your position, Tushtoan parties, and political averages.
           </p>
+
+          <div class="average-controls">
+            <div class="control-row">
+              <label><input id="showParliamentAverage" class="average-toggle" type="checkbox" checked>Show current parliament average</label>
+              <label><input id="showCabinetAverage" class="average-toggle" type="checkbox">Show cabinet average</label>
+            </div>
+            <div>
+              <label class="compare-label" for="cabinetParties">Cabinet parties used to calculate the cabinet average</label>
+              <select id="cabinetParties" class="compare-select" multiple aria-describedby="cabinetHelp"></select>
+              <p id="cabinetHelp" class="compare-help">Select the parties currently in the cabinet. The yellow cabinet marker updates automatically.</p>
+            </div>
+            <div>
+              <label class="compare-label" for="compareParties">Compare parties with one another and with the parliament average</label>
+              <select id="compareParties" class="compare-select" multiple></select>
+              <p class="compare-help">Select two or more parties. Their positions and their combined average will be shown on the compass, with each party's distance from the parliament average below.</p>
+            </div>
+            <p id="compareOutput" class="compare-output" aria-live="polite">Choose at least two parties to compare them.</p>
+          </div>
 
           <div class="compass-wrap">
             <div id="compass" class="compass">
@@ -943,7 +1048,7 @@
     </section>
   </main>
 
-  <script>
+    <script>
     /* =========================================================
        CONFIGURATION
        =========================================================
@@ -964,11 +1069,17 @@
 
        A party's fourth value is true if it has parliamentary
        seats or has seats in polls. It is false otherwise.
-       
+
        ========================================================= */
 
     const CONFIG = {
       MAX_VAL: 200,
+
+      // Fixed current-parliament average supplied for this compass.
+      parliamentAverage: [-70, 110],
+      // Add party abbreviations here to preselect the current cabinet.
+      // Leave empty until the cabinet composition is configured.
+      cabinetParties: [],
 
       questions: [
         ["Capitalism must be abolished again.", -13.333, 0],
@@ -1073,6 +1184,11 @@
     const showAllPartiesBtn = document.getElementById("showAllPartiesBtn");
     const showCurrentPartiesBtn = document.getElementById("showCurrentPartiesBtn");
     const partyFilterDescription = document.getElementById("partyFilterDescription");
+    const showParliamentAverage = document.getElementById("showParliamentAverage");
+    const showCabinetAverage = document.getElementById("showCabinetAverage");
+    const cabinetPartiesSelect = document.getElementById("cabinetParties");
+    const comparePartiesSelect = document.getElementById("compareParties");
+    const compareOutput = document.getElementById("compareOutput");
 
     function clamp(value, min, max) {
       return Math.max(min, Math.min(max, value));
@@ -1083,10 +1199,6 @@
         ? String(value)
         : value.toFixed(1).replace(/\.0$/, "");
     }
-
-    /* =========================
-       QUIZ
-       ========================= */
 
     function renderQuestion() {
       if (questionIndex >= CONFIG.questions.length) {
@@ -1205,6 +1317,94 @@
        DRAW PARTIES ON COMPASS
        ========================= */
 
+    function populatePartySelectors() {
+      const parties = CONFIG.parties;
+      [cabinetPartiesSelect, comparePartiesSelect].forEach(select => {
+        select.innerHTML = "";
+        parties.forEach(([name]) => {
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          select.appendChild(option);
+        });
+      });
+      Array.from(cabinetPartiesSelect.options).forEach(option => {
+        option.selected = CONFIG.cabinetParties.includes(option.value);
+      });
+    }
+
+    function selectedParties(select) {
+      const names = Array.from(select.selectedOptions).map(option => option.value);
+      return CONFIG.parties.filter(([name]) => names.includes(name));
+    }
+
+    function averagePosition(parties) {
+      if (!parties.length) return null;
+      return {
+        x: parties.reduce((sum, party) => sum + party[1], 0) / parties.length,
+        y: parties.reduce((sum, party) => sum + party[2], 0) / parties.length
+      };
+    }
+
+    function addAverageMarker(name, x, y, description = "") {
+      const dot = document.createElement("div");
+      dot.className = "average-dot";
+      dot.style.left = `${positionToPercentX(x)}%`;
+      dot.style.top = `${positionToPercentY(y)}%`;
+      dot.title = `${name} (${formatNumber(x)}, ${formatNumber(y)})${description ? " — " + description : ""}`;
+      const label = document.createElement("div");
+      label.className = "average-label";
+      label.textContent = name;
+      label.style.left = `${positionToPercentX(x)}%`;
+      label.style.top = `${positionToPercentY(y)}%`;
+      compass.append(dot, label);
+    }
+
+    function renderAverages() {
+      compass.querySelectorAll(".average-dot, .average-label, .compare-line").forEach(el => el.remove());
+
+      if (showParliamentAverage.checked) {
+        const [x, y] = CONFIG.parliamentAverage;
+        addAverageMarker("Parliament average", x, y);
+      }
+
+      if (showCabinetAverage.checked) {
+        const average = averagePosition(selectedParties(cabinetPartiesSelect));
+        if (average) {
+          addAverageMarker("Cabinet average", average.x, average.y);
+        } else {
+          compareOutput.textContent = "Select at least one cabinet party to calculate the cabinet average.";
+        }
+      }
+
+      const compared = selectedParties(comparePartiesSelect);
+      if (compared.length >= 2) {
+        const average = averagePosition(compared);
+        addAverageMarker("Selected parties' average", average.x, average.y,
+          compared.map(p => p[0]).join(", "));
+      }
+      renderComparisonOutput(compared);
+    }
+
+    function renderComparisonOutput(compared) {
+      if (compared.length === 0) {
+        compareOutput.textContent = "Choose at least two parties to compare them.";
+        return;
+      }
+      const [px, py] = CONFIG.parliamentAverage;
+      const lines = compared.map(([name, x, y]) => {
+        const distance = Math.hypot(x - px, y - py);
+        return `${name}: (${formatNumber(x)}, ${formatNumber(y)}) — ${distance.toFixed(1)} compass units from parliament average`;
+      });
+      if (compared.length >= 2) {
+        const average = averagePosition(compared);
+        lines.push(`Selected-party average: (${formatNumber(average.x)}, ${formatNumber(average.y)})`);
+      } else {
+        lines.push("Select at least one more party to calculate a group average.");
+      }
+      compareOutput.textContent = lines.join("\n");
+    }
+
     function clearPartyMarkers() {
       compass
         .querySelectorAll(".party-dot, .party-label")
@@ -1232,6 +1432,7 @@
         compass.appendChild(dot);
         compass.appendChild(label);
       });
+      renderAverages();
     }
 
     /* =========================
@@ -1370,11 +1571,17 @@
       updatePartyFilter(true);
     });
 
+    showParliamentAverage.addEventListener("change", renderAverages);
+    showCabinetAverage.addEventListener("change", renderAverages);
+    cabinetPartiesSelect.addEventListener("change", renderAverages);
+    comparePartiesSelect.addEventListener("change", renderAverages);
+
     document.getElementById("resetTop").addEventListener("click", resetQuiz);
 
     document.getElementById("restartLarge").addEventListener("click", resetQuiz);
 
-    // Display the first question when the page loads.
+    // Populate comparison controls and display the first question.
+    populatePartySelectors();
     renderQuestion();
   </script>
 </body>
